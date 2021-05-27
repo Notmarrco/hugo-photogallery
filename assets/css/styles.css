@@ -1,0 +1,150 @@
+/**
+ * Some default styles for photogallery.
+ * @todo we should use sass
+ */
+
+figure {
+  display: flex;
+  max-width: 100%;
+}
+
+img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  border: 0;
+}
+
+strong {
+  font-weight: 600;
+}
+
+figcaption {
+  display: none;
+}
+
+.standard section {
+  margin-bottom: 2rem;
+}
+
+.album-list {
+  width: 100%;
+  padding: 2em 0;
+  margin: auto;
+  background: #eee none repeat scroll 0 0;
+  float: left;
+}
+
+.album_title {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.video {
+  width: 100%;
+  margin: 0 0 24px 0;
+}
+.video__container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  padding-top: 35px;
+  height: 0;
+  overflow: hidden;
+}
+.video__container iframe,
+.video__container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 2% 0 15% 0;
+}
+.video-desc {
+  width: 100%;
+  max-width: 740px;
+  margin: 12px auto;
+}
+
+.additionnal-infos {
+  width: 100%;
+  height: auto;
+  float: left;
+}
+
+.gallery {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding-top: 1em;
+  margin-bottom: 2rem;
+}
+.gallery a {
+  line-height: 0;
+}
+
+.gallery__img--secondary {
+  width: 25%;
+  margin-bottom: 1em;
+}
+
+.gallery__title {
+  line-height: 14px;
+  font-size: 14px;
+  opacity: 0.8;
+  margin-top: 5px;
+  width: 100%;
+}
+
+.thumbnail {
+  display: flex;
+  justify-content: center;
+}
+
+.thumbnail a {
+  max-width: 85%;
+}
+.thumbnail img {
+  height: auto;
+  margin: 0 2px 5px 2px;
+  border: 10px solid #fff;
+  border-radius: 2px 2px 2px 2px;
+  box-shadow: 0 0 3px #b1b1b1;
+  padding: 0 0 2px;
+}
+.thumbnail img:hover {
+  box-shadow: 0 0 5px #818181;
+}
+
+.gallery__img--secondary.thumbnail img {
+  max-height: 165px; /* Désactiver si on veut donner + de place aux images portrait vs paysage */
+}
+
+@media screen and (max-width: 700px) {
+  h1 {
+    font-size: 40px;
+  }
+  .menu-img,
+  .gallery__img--secondary {
+    width: 33%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .menu-img,
+  .gallery__img--secondary {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  .menu-img,
+  .gallery__img--secondary {
+    width: 100%;
+  }
+}

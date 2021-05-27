@@ -1,0 +1,4 @@
+{{ $defaultGallery := $.Site.Params.defaultGallery | default "photoswipe" }}
+{{ $gallery := .Page.Params.gallery | default $defaultGallery }}
+
+{{ partial (printf "%s/%s_head" $gallery $gallery) . }}

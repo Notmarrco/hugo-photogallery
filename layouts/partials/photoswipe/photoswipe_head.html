@@ -1,0 +1,14 @@
+{{ $psjs := resources.Get "js/vendor/photoswipe/photoswipe.min.js" }}
+{{ $psuijs := resources.Get "js/vendor/photoswipe/photoswipe-ui-default.min.js" }}
+{{ $echojs := resources.Get "js/vendor/echo-js/echo.min.js" }}
+{{$js := slice $psjs $psuijs $echojs | resources.Concat "js/photoswipe-bundle.js" }}
+<script type="text/javascript" src="{{ $js.Permalink }}"></script>
+
+{{ $pscss := resources.Get "js/vendor/photoswipe/photoswipe.css" }}
+<link rel="stylesheet" href="{{ $pscss.Permalink }}">
+{{ $skin := resources.Get "js/vendor/photoswipe/default-skin/default-skin.css" }}
+<link rel="stylesheet" href="{{ $skin.Permalink }}">
+{{ $customcss := resources.Get "css/theme-photo-styles.css" }}
+<link rel="stylesheet" href="{{ $customcss.Permalink }}">
+{{ $gallerycss := resources.Get "css/photoswipe/photoswipe-gallery.css" }}
+<link rel="stylesheet" href="{{ $gallerycss.Permalink }}">

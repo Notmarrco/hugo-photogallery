@@ -1,0 +1,55 @@
+
+defautGallery = "photoswipe"
+defaultWidth = "1920"
+defaultHeight = "1080"
+
+# https://gohugo.io/hugo-modules/configuration/#module-config-mounts
+#
+# ERROR :slice [] interface not supported in concat : 
+# https://discourse.gohugo.io/t/resources-concat-with-js-slice-interface-not-supported-in-concat/26558/5
+# 
+# When Hugo doesn't find assets, it crashes. So we have to mount all assets.
+# We also mount the "node_modules" assets.
+
+[module]
+
+    [[module.mounts]]
+    source = "archetypes"
+    target = "archetypes"
+    
+    [[module.mounts]]
+    source = "assets"
+    target = "assets"
+
+    [[module.mounts]]
+    source = "i18n"
+    target = "i18n"
+
+    [[module.mounts]]
+    source = "layouts"
+    target = "layouts"
+
+    [[module.mounts]]
+    source = "static"
+    target = "static"
+
+    [[module.mounts]]
+    source = "node_modules/photoswipe/dist/"
+    target = "assets/js/vendor/photoswipe"
+
+    # Mount png/svg to static
+    [[module.mounts]]
+    source = "node_modules/photoswipe/dist/default-skin"
+    target = "static/js/vendor/photoswipe/default-skin"
+
+    [[module.mounts]]
+    source = "node_modules/echo-js/dist/"
+    target = "assets/js/vendor/echo-js"
+
+    # Not sure why but if works if we repeat the asset declaration
+    [[module.mounts]]
+    source = "assets/js/photo-app.js"
+    target = "assets/js/photo-app.js"
+    [[module.mounts]]
+    source = "assets/css/styles.css"
+    target = "assets/css/theme-photo-styles.css"

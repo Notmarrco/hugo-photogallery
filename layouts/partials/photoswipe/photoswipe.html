@@ -1,0 +1,11 @@
+<!-- 
+    Photoswipe needs height/width of the image, so we have to store it in our data.
+    If all the images are the same size (or most of them) we might want to use a default
+    size instead of storing the sizes for each image.
+    To ease the bootstraping of the template we set default value to portrait 800x1000.
+-->
+
+{{ partial "photogallery_main" . }}
+
+<!-- Include photoswipe root element and js -->
+{{ partial "photoswipe/photoswipe_root" .}}

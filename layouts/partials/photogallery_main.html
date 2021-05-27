@@ -1,0 +1,138 @@
+
+<!-- 
+    Photoswipe needs height/width of the image, so we have to store it in our data.
+    If all the images are the same size (or most of them) we might want to use a default
+    size instead of storing the sizes for each image.
+    To ease the bootstraping of the template we set default value to portrait 800x1000.
+-->
+{{ $defaultWidth := $.Site.Params.defaultWidth | default "800" }}
+{{ $defaultHeight := $.Site.Params.defaultHeight | default "1000" }}
+{{ $defaultWidth := .Page.Params.defaultWidth | default $defaultWidth }}
+{{ $defaultHeight := .Page.Params.defaultHeight | default $defaultHeight }}
+
+<!-- Title is already handled by hugo site theme (section/pages etc.) -->
+
+<!-- Case 1 : data is store in a data/*.yaml file -->
+<!--  TODO other cases -->
+{{ $datafile := .Page.Params.data }}
+{{ $yaml := $.Site.Data }}
+
+{{/*  Allow nested data files, like "photos/2021/event.yaml" */}}
+{{ range (split $datafile "/") }}
+    {{ $yaml = index $yaml . }}
+{{ end }}
+
+{{ $hideCaption := .Page.Params.hideCaption }}
+
+{{ if $yaml }}
+    <div class="additionnal-infos">
+        {{ $zip_archive := index $yaml "zip" }}
+        {{ if $zip_archive }}
+            <p>
+                <a 
+                    href="{{ $zip_archive }}"
+                    title="Download a zip archive with all images"
+                >
+                    Download ZIP
+                </a>
+            </p>
+        {{ end }}
+        {{ $sharedUntil := index $yaml "sharedUntil" }}
+        {{ if $sharedUntil }}
+            <p class="sharedUntil">
+                <small>Partagé jusqu'au {{ dateFormat "2/1/2006" $sharedUntil }}</small>
+            </p>
+        {{ end }}
+    </div>
+
+    {{ $elements := index $yaml "medias" }}
+
+    {{ if $elements }}
+        <!-- TODO EN CAS DE "SECTION" il faut pouvoir faire un seul div pour toute la page ?
+            ou pouvoir faire un photoswipe across plusieurs divs ??
+        -->
+        <div class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+        {{ $loop := 0 }}
+        {{ range $elements }}
+            {{ $element := . }}
+            {{ $type := (cond (isset $element "type") (index $element "type") "image") }}
+            {{ $width := (cond (isset $element "width") (index $element "width") $defaultWidth ) }}
+            {{ $height := (cond (isset $element "height") (index $element "height") $defaultHeight ) }}
+            {{ $thumbnail := index $element "thumb" }}
+            {{ $url := index $element "url" }}
+            {{ $datetime := index $element "datetime" }} 
+            {{ $title := index $element "title" }}
+            {{ $style := index $element "style" }}
+            {{ $description := (cond (not $datetime) $title (cond (not $title) $datetime (printf "%s - %s" $title $datetime)) ) }}
+
+            {{ if (eq $type "image") }}
+                <figure 
+                    class="gallery__img--{{ if or (eq $loop 0) (eq $style "main") }}main{{ else}}secondary{{ end }} thumbnail"
+                    itemprop="associatedMedia" 
+                    itemscope 
+                    itemtype="http://schema.org/ImageObject"
+                >
+                    <a 
+                        href="{{ $url }}" 
+                        class="no-decoration"
+                        itemprop="contentUrl" 
+                        data-size="{{ $width }}x{{ $height }}"
+                        data-big="{{ $url }}"
+                        data-date="{{ $datetime }}"
+                    >
+                        <img 
+                            src="img/blank.gif"
+                            data-echo={{ if or (eq $loop 0) (eq $style "main") }}"{{ $url }}" {{ else }} "{{ $thumbnail }}" {{ end }}
+                            alt="{{ $url }}" 
+                            itemprop="thumbnail" 
+                            title="{{ $title }}" 
+                        />
+                    </a>
+                    {{ if not $hideCaption }}
+                        <figcaption itemprop="caption description">{{ $description }}</figcaption>
+                    {{ end }}
+                </figure>
+                {{ $loop = (add $loop 1) }}
+            
+            {{ end }}
+            {{ if (eq $type "video") }}
+                {{ $mime := index $element "mime" }}
+                {{ $mhash := (printf "%s" $url) | replaceRE "[\\.\\s]" "" }}
+                <!--  
+    TODO : allow multiple video sources
+ -->
+                <figure 
+                    class="gallery__img--secondary thumbnail" 
+                    itemprop="associatedMedia" 
+                    itemscope
+                    itemtype="http://schema.org/ImageObject"
+                >
+                    <a 
+                        href="{{ $url }}" 
+                        itemprop="contentUrl" 
+                        data-type="video"
+                        data-video='<div class="video">
+                            <div class="video__container">
+                                <video controls>
+                                    <source src="{{ $url }}" type="{{ $mime }}" />
+                                </video>
+                            </div>
+                        </div>'
+                    >
+                        <img 
+                            src="img/blank.gif" 
+                            data-echo="{{ $thumbnail }}" 
+                            alt="{{ $thumbnail }}"
+                            itemprop="thumbnail" 
+                            title="" 
+                        />
+                    </a>
+                    {{ if not $hideCaption }}
+                        <figcaption itemprop="caption description">{{ $title }}</figcaption>
+                    {{ end }}
+                </figure>
+            {{ end }}
+        {{ end }}
+        </div>
+    {{ end }}
+{{ end }}
