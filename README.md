@@ -51,7 +51,7 @@ mv PhotoSwipe-4.4.0/ node_modules/photoswipe
 Lastly you have to add the photogallery assets in your `layout/baseof.html` (or override the one from your theme ...).
 
 To do this, just add `photogallerly_head` partial, and it will choose the right header
-for the gallery template you will use.
+for the gallery template you will use, based on the frontmatter `gallery` option.
 
 ```html
 <!-- eg. in layouts/_default/baseof.html -->
@@ -59,6 +59,9 @@ for the gallery template you will use.
     {{- partial "photogallery_head.html" . -}}
 </head>
 ```
+
+If you use the shortcode with a named parameter : `{{ <photos gallery=fluid> }}`, then the photogallery_head
+cannot access the `gallery` parameter, so you have to manually add the right `xx_head` partial in your head.
 
 ### Usage frontmatter
 
