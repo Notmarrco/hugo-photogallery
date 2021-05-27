@@ -1,0 +1,12 @@
+name = "Photogallery"
+license = "MIT"
+licenselink = "https://github.com/notmarrco/hugo-photogallery/blob/master/LICENSE"
+description = "Theme to add a photogallery inside any hugo installation."
+homepage = "https://github.com/notmarrco/hugo-photogallery"
+tags = ["photo", "gallery"]
+features = []
+min_version = "0.41.0"
+
+[author]
+  name = "notmarrco"
+  homepage = "https://github.com/notmarrco"
