@@ -1,0 +1,12 @@
+{{ $defaultGallery := $.Site.Params.defaultGallery | default "photoswipe" }}
+<!-- 
+    If using a shortcode with namedparams, you have to manually include the theme_head.html partial
+    in the header of main site baseof.html since we cannot access the value of the named param
+    outside of the shortcode.
+-->
+{{ $gallery := .Page.Params.gallery | default $defaultGallery }}
+{{ if .IsNamedParams }}
+    {{ $gallery = .Get "gallery" }}
+{{ end }}
+
+{{ partial $gallery"/"$gallery . }}
