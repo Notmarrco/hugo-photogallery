@@ -9,4 +9,4 @@
     {{ $gallery = .Get "gallery" }}
 {{ end }}
 
-{{ partial $gallery"/"$gallery . }}
+{{ partial (printf "%s/%s" $gallery $gallery) . }}
